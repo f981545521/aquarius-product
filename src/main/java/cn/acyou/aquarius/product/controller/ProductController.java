@@ -17,7 +17,7 @@ import java.util.List;
  * @version [1.0.0, 2020/8/20]
  **/
 @RestController
-@RequestMapping("product")
+@RequestMapping("test")
 public class ProductController {
     @Autowired
     private ProductMapper productMapper;
