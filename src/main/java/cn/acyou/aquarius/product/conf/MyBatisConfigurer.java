@@ -1,5 +1,6 @@
 package cn.acyou.aquarius.product.conf;
 
+import io.seata.rm.datasource.DataSourceProxy;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -26,10 +27,14 @@ public class MyBatisConfigurer implements TransactionManagementConfigurer {
     @Autowired
     private DataSource dataSource;//注入数据源
 
+    public DataSourceProxy getDataSourceProxy() {
+        return new DataSourceProxy(dataSource);
+    }
+
     @Bean(name = "sqlSessionFactory")
     protected SqlSessionFactoryBean getSqlSessionFactoryBean(){
         SqlSessionFactoryBean sqlsession = new SqlSessionFactoryBean();
-        sqlsession.setDataSource(dataSource);
+        sqlsession.setDataSource(getDataSourceProxy());
         // typeAliasesPackage：它一般对应我们的实体类所在的包，这个时候会自动取对应包中不包括包名的简单类名作为包括包名的别名。多个package之间可以用逗号或者分号等来进行分隔。(value的值一定要是包的全名)
         sqlsession.setTypeAliasesPackage("cn.acyou.aquarius.product.entity");//扫描entity包 使用别名
         org.apache.ibatis.session.Configuration configuration=new org.apache.ibatis.session.Configuration();

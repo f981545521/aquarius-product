@@ -4,6 +4,7 @@ import cn.acyou.aquarius.product.common.Result;
 import cn.acyou.aquarius.product.entity.Product;
 import cn.acyou.aquarius.product.mapper.ProductMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -26,7 +27,9 @@ public class ProductController {
         List<Product> products = productMapper.selectAll();
         return Result.success(products);
     }
+
     @GetMapping(value = "/outStock")
+    @Transactional
     public List<String> outStock(){
         List<String> rs = new ArrayList<>();
         Product product = productMapper.selectByPrimaryKey(1);
