@@ -3,6 +3,8 @@ package cn.acyou.aquarius.product.controller;
 import cn.acyou.aquarius.product.common.Result;
 import cn.acyou.aquarius.product.entity.Product;
 import cn.acyou.aquarius.product.mapper.ProductMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,6 +21,7 @@ import java.util.List;
 @RestController
 @RequestMapping("test")
 public class ProductController {
+    private static final Logger log = LoggerFactory.getLogger(ProductController.class);
     @Autowired
     private ProductMapper productMapper;
 
@@ -35,7 +38,7 @@ public class ProductController {
         Product product = productMapper.selectByPrimaryKey(1);
         product.setStockNumber(product.getStockNumber() - 1);
         productMapper.updateByPrimaryKeySelective(product);
-        System.out.println("扣减库存");
+        log.info("扣减库存");
         rs.add("扣减库存成功！");
         return rs;
     }
